@@ -17,6 +17,16 @@ class UsersRepository:
         query = select(users).where(users.columns.id == user_id)
         result = await self.db.execute(query)
         return result.mappings().first()
+    
+    async def is_user_exists(self, email: str):
+        query = select(users).where(users.columns.email == email)
+        result = await self.db.execute(query)
+        return result.mappings().first() is not None
+
+    async def auth_user(self, email: str, password: str) -> User | None:
+        query = select(users).where(users.columns.email == email, users.columns.password == password)
+        result = await self.db.execute(query)
+        return result.mappings().first()
 
     async def create_user(self, user_data: UserCreate):
         query = insert(users).values(**user_data.model_dump())
