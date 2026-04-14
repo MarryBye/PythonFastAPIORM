@@ -1,5 +1,4 @@
 from sqlalchemy import Table, Column, Integer, String
-from alchemy.engine import engine
 from alchemy.metadata import metadata
 
 users = Table(
